@@ -120,6 +120,20 @@ class BotCommands(commands.Cog):
             await sh.write(list, "Done")
             # await interaction.response.send_message("Send", ephemeral=True)
 
+    @app_commands.command(name="oneshotcreate")
+    @app_commands.describe(oneshotname="The name of the oneshot", raws="Link to the raws")
+    async def create(self, interaction: discord.Interaction, oneshotname: str, raws: str):
+        guild = interaction.guild
+        forum_id = 1223818326921314314
+        forum = self.bot.get_channel(forum_id)
+        thread = await forum.create_thread(name=oneshotname)
+        await thread.send("Initial message for the thread")
+        #### Create new thread ####
+        #### Make new oneshot in the sheet ####
+
+        #await sh.copy(sheet)
+
+
 
 async def setup(bot):
     await bot.add_cog(BotCommands(bot))

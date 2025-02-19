@@ -1,0 +1,20 @@
+[features]
+check_old_entries = true
+
+[channels]
+assignment_log = 1219030657955794954
+assignment_channel= 1218705159614631946
+checkup_channel = 1224453260543266907
+oneshot_channel = 1225634854390206494
+
+[assignments]
+hiatus = "Hungover"
+
+[roles]
+RP = ["B", "C"]
+TL = ["D", "E"]
+PR = ["F", "G"]
+CLRD = ["H", "I"]
+TS = ["J", "K"]
+QC = ["L", "M"]
+UPD = ["N", "O"]

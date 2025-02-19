@@ -1,38 +1,27 @@
 from dotenv import load_dotenv
 import os
+import toml
 
 # Load environment variables
 load_dotenv()
+with open("settings.toml", "r")as f: # Load the config file
+    config = toml.load(f)
+
+CHECK_OLD_ENTRIES_ENABLED = config["features"]["check_old_entries"]
 
 # Bot information
 TOKEN = os.getenv("TOKEN")  # Discord Token. Loads the token from the .env file
 BOT_ID = 1218682240947458129  # User id of the bot
 
 # Channel IDs
-ASSIGNMENT_CHANNEL = 1218705159614631946  # Channel ID of the assignment channel
-CHECKUP_CHANNEL = 1224453260543266907  # Channel ID of Hdydrometer
-ONESHOT_CHANNEL = 1225634854390206494  # Channel ID of the oneshot channel
-
+ASSIGNMENT_CHANNEL = config["channels"]["assignment_channel"] # Channel ID of the assignment channel
+CHECKUP_CHANNEL = config["channels"]["checkup_channel"] # Channel ID of Hdydrometer
+ONESHOT_CHANNEL = config["channels"]["oneshot_channel"] # Channel ID of the oneshot channel
 
 # Role dictionary
-role_dict = {
-    "RP": ("B", "C"),
-    "TL": ("D", "E"),
-    "PR": ("F", "G"),
-    "CLRD": ("H", "I"),
-    "TS": ("J", "K"),
-    "QC": ("L", "M"),
-    "UPD": ("N", "O")
-}
-role_dict_reaction = {
-    "B": "RP",
-    "D": "TL",
-    "F": "PR",
-    "H": "CLRD",
-    "J": "TS",
-    "L": "QC",
-    "N": "UPD"
-}
+role_dict = config["roles"]
+role_dict_reaction = {emojis[0]: role for role, emojis in role_dict.items()}
+
 
 # Other configurations
 COMMAND_PREFIX = '$'

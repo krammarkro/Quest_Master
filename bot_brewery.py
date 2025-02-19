@@ -1,6 +1,5 @@
 import discord
-from config import TOKEN, BOT_ID, ASSIGNMENT_CHANNEL, CHECKUP_CHANNEL, ONESHOT_CHANNEL, COMMAND_PREFIX, \
-    role_dict_reaction
+from config import TOKEN, BOT_ID, ASSIGNMENT_CHANNEL, CHECKUP_CHANNEL, ONESHOT_CHANNEL, COMMAND_PREFIX, CHECK_OLD_ENTRIES_ENABLED
 import sys
 from discord.ext import tasks
 import asyncio
@@ -67,7 +66,8 @@ async def main():
         await bot.load_extension('cogs.help_command')  # Load your help command extension
         await bot.load_extension('cogs.dev_utilities')  # Load your dev utilities extension
         await bot.load_extension('cogs.assignment')  # Load your assignment extension
-        check_old_entries.start()  # Start the looping task
+        if CHECK_OLD_ENTRIES_ENABLED:
+            check_old_entries.start()  # Start the looping task
         await bot.start(TOKEN)  # Start the bot
 
     except KeyboardInterrupt:

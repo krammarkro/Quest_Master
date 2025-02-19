@@ -2,7 +2,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 import sheet as sh
-from requests import get
 from logger import setup_logger
 from config import ASSIGNMENT_CHANNEL, ONESHOT_CHANNEL, role_dict
 from datetime import datetime, timedelta
@@ -19,7 +18,7 @@ class Dropdown(discord.ui.Select):
     async def callback(self, interaction: discord.Interaction):
         date_format = "%Y-%m-%d"
         if self.values[0] == 'accepted':
-            data = await sh.retriev_assignments(interaction.user.id)
+            data = await sh.retrieve_assignments(interaction.user.id)
             filtered_data = [item for item in data if len(item[0]) != 6]
             print(filtered_data)
             filtered_data2 = "\n".join([item[0][1] for item in filtered_data])
@@ -44,7 +43,7 @@ class Dropdown(discord.ui.Select):
                             inline=True)
             await interaction.response.send_message(embed=embed, ephemeral=True)
         if self.values[0] == 'assigned':
-            data = await sh.retriev_assignments(interaction.user.id)
+            data = await sh.retrieve_assignments(interaction.user.id)
             filtered_data = [item for item in data if len(item[0]) == 6]
             print(filtered_data)
             embed = discord.Embed(title="Assigned",
@@ -145,7 +144,7 @@ class assignment(commands.Cog):
     @app_commands.command(name="userassignments")
     @app_commands.describe(user="User ID")
     async def userassignments(self, interaction: discord.Interaction, user: str):
-        data = await sh.retriev_assignments((user[2:-1]))
+        data = await sh.retrieve_assignments((user[2:-1]))
         embed = discord.Embed(title=f"Assignments for User",
                               description="List of all Assignments",
                               colour=0x00b0f4)

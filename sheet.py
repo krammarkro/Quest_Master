@@ -16,14 +16,13 @@ load_dotenv()
 staffsheet = os.getenv("STAFF")  # Where staff info is tracked
 progresssheet = os.getenv("DATA")  # Progess tracker
 ID = os.getenv("ID")  # Used for deleting rows
-SPREADSHEET_ID = os.getenv("SPREADSHEET_ID")
 credential = service_account.Credentials.from_service_account_file(
     "service_account.json", scopes=SCOPES)
 service = build("sheets", "v4", credentials=credential)
 sheets = service.spreadsheets()
 
 
-async def retriev_assignments(user):
+async def retrieve_assignments(user):
     """
         This function retrieves assignments for a specific user from a Google Sheets spreadsheet.
 

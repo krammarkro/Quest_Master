@@ -1,5 +1,5 @@
 [features]
-check_old_entries = true
+check_old_entries = false
 
 [channels]
 assignment_log = 1219030657955794954

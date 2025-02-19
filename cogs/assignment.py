@@ -3,10 +3,28 @@ from discord import app_commands
 from discord.ext import commands
 import sheet as sh
 from logger import setup_logger
-from config import ASSIGNMENT_CHANNEL, ONESHOT_CHANNEL, role_dict
+from config import ASSIGNMENT_CHANNEL, role_dict, Hiatus
 from datetime import datetime, timedelta
 from config import role_dict_reaction
+import asyncio
+
 logger = setup_logger(__name__)
+
+
+async def assign_help(data, interaction, target_channel, role):
+    if data[0] is None:
+        await interaction.followup.send(
+            f"Oops something went wrong! \nAre you sure txhat the channel is Inside the Databank?",
+            ephemeral=True)
+    else:
+        message = await target_channel.send(
+            f"{data[0]} | CH {data[1]} | {role} | {data[4]}")
+        await sh.store(message.id, data[0], data[1], data[4], data[2], data[3])
+        await sh.write(data, "Assigned")
+        await interaction.followup.send(content="Assigned")
+        await message.add_reaction("✅")
+        await message.add_reaction("❌")
+
 class Dropdown(discord.ui.Select):
     def __init__(self):
         options = [
@@ -21,7 +39,7 @@ class Dropdown(discord.ui.Select):
             data = await sh.retrieve_assignments(interaction.user.id)
             filtered_data = [item for item in data if len(item[0]) != 6]
             print(filtered_data)
-            filtered_data2 = "\n".join([item[0][1] for item in filtered_data])
+            # filtered_data2 = "\n".join([item[0][1] for item in filtered_data])
             # print(filtered_data2)
             embed = discord.Embed(title="Accepted",
                                   description="List of Your Accepted  Assignments",
@@ -29,7 +47,8 @@ class Dropdown(discord.ui.Select):
             embed.add_field(name="Series",
                             value="\n".join([item[0][1] for item in filtered_data]),
                             inline=True)
-            updated_dates = [(datetime.strptime(item[0][6], date_format) + timedelta(days=4)).strftime(date_format) for item
+            updated_dates = [(datetime.strptime(item[0][6], date_format) + timedelta(days=4)).strftime(date_format) for
+                             item
                              in filtered_data]
             embed.add_field(name="Due Date",
                             value="\n".join(updated_dates),
@@ -73,7 +92,8 @@ class DropdownView(discord.ui.View):
         super().__init__()
         self.add_item(Dropdown())
 
-class assignment(commands.Cog):
+
+class ASSIGNMENT(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -83,7 +103,7 @@ class assignment(commands.Cog):
         await interaction.response.defer(ephemeral=True)
         target_channel = self.bot.get_channel(ASSIGNMENT_CHANNEL)
         member = interaction.guild.get_member(int(who[2:-1]))
-        required_role = discord.utils.get(interaction.guild.roles, name="Hungover")
+        required_role = discord.utils.get(interaction.guild.roles, name=Hiatus)
         role = role.upper()
         first = None
         second = None
@@ -91,23 +111,34 @@ class assignment(commands.Cog):
             first, second = role_dict[role.upper()]
         if first is None:
             await interaction.followup.send(f" '{role.upper()}' is not a valid Role ", ephemeral=True)
-        if required_role not in member.roles:
+        if required_role in member.roles:
+            dm_channel = await interaction.user.create_dm()
+            message = await dm_channel.send(f"{who} is on Hiatus. Assign Anyway?")
+            await message.add_reaction("✅")
+            await message.add_reaction("❌")
 
-            message = await target_channel.send(f"{await sh.getsheetname(series)} | CH {chapter} | {role} | {who}")
-            data = [await sh.getsheetname(series), chapter, first, second, who]
-            if data[0] is None:
-                await interaction.followup.send(
-                    f"Oops something went wrong! \nAre you sure that the channel is Inside the Databank?",
-                    ephemeral=True)
-            # If the sheet is not found, the message will be deleted and the user will be notified
-            else:
-                await sh.store(message.id, data[0], chapter, who, first, second)
-                await sh.write(data, "Assigned")
-                await interaction.followup.send(content="Assigned")
-                await message.add_reaction("✅")
-                await message.add_reaction("❌")
+            # Wait for the user's reaction
+            def check(reaction, user):
+                return user == interaction.user and str(reaction.emoji) in ["✅",
+                                                                            "❌"] and reaction.message.id == message.id
+
+            reaction, user = await self.bot.wait_for('reaction_add', timeout=60.0, check=check)
+
+            try:
+                if str(reaction.emoji) == "✅":
+                    # Run the code if the reaction is ✅ (green)
+                    data = [await sh.getsheetname(series), chapter, first, second, who]
+                    await assign_help(data, interaction, target_channel,role)
+                    await message.edit(content="Assigned")
+
+                elif str(reaction.emoji) == "❌":
+                    # Break/Stop the process if the reaction is ❌ (red)
+                    await interaction.followup.send(f"Assignment canceled for {who}.", ephemeral=True)
+            except asyncio.TimeoutError:
+                await interaction.followup.send("Reaction timed out. Assignment canceled.", ephemeral=True)
         else:
-            await interaction.followup.send(f"{who} is on Hiatus", ephemeral=True)
+            data = [await sh.getsheetname(series), chapter, first, second, who]
+            await assign_help(data, interaction, target_channel, role)
 
     @app_commands.command(name="bulkassign")
     @app_commands.describe(series="# of the series", start_chapter="start chapter", end_chapter="end chapter",
@@ -164,6 +195,7 @@ class assignment(commands.Cog):
         await interaction.response.send_message(embed=embed, ephemeral=True)
     # slash commands go here using @app_commands decorator
 
+
 async def setup(bot):
-    await bot.add_cog(assignment(bot))
+    await bot.add_cog(ASSIGNMENT(bot))
     #

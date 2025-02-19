@@ -22,6 +22,6 @@ ONESHOT_CHANNEL = config["channels"]["oneshot_channel"] # Channel ID of the ones
 role_dict = config["roles"]
 role_dict_reaction = {emojis[0]: role for role, emojis in role_dict.items()}
 
-
+Hiatus = config["assignments"]["hiatus"]
 # Other configurations
 COMMAND_PREFIX = '$'

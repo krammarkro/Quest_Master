@@ -1,53 +1,67 @@
-# 📖 Quest Master Bot
 
-A **self-hosted Discord bot** designed to help scanlation groups efficiently manage their assignment data. The bot automates the input of assignment data into a progress sheet and logs updates.
 
 ---
 
-## 🚀 Features
-- **Assignment Data Management**: Automates the input of assignments into a progress sheet.
-- **Automated Logging**: Keeps track of assignments in designated channels.
-- **Hiatus Handling**: Prevents members with a specific role from receiving assignments.
-- **Customizable Settings**: Configure features, roles, and channels via `settings.toml`.
+# **Quest\_Master**
+
+*A self-hosted Discord bot for managing scanlation assignments*
+
+## **📌 Overview**
+
+Quest\_Master is a self-hosted Discord bot designed to assist scanlation groups in efficiently managing their assignment workflow. The bot automates the input of assignment data into a progress sheet and logs updates, reducing manual work and ensuring accuracy.
+
+## **⚡ Key Features**
+
+✔ Automates task assignments and tracking for scanlation projects.\
+✔ Seamlessly integrates with Google Sheets for real-time updates.\
+✔ Supports bulk assignments and multi-user collaboration.\
+✔ Configurable roles, channels, and assignment statuses.\
+✔ Designed to streamline management and improve efficiency.
 
 ---
 
-## 🛠️ Installation
+## **📥 Installation & Setup**
 
-### **1️⃣ Clone the Repository**
+### **1. Clone the Repository**
+
 ```bash
 git clone https://github.com/yourusername/Quest_Master.git
 cd Quest_Master
 ```
 
-### **2️⃣ Install Dependencies**
-The bot requires multiple Python packages. Install them using:
+### **2. Install Dependencies**
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### **3️⃣ Set Up Environment Variables**
-Create a `.env` file in the root directory with the following content:
-```ini
+### **3. Configure Environment Variables**
+
+Create a `.env` file and add the following:
+
+```
 STAFF=YOUR_STAFF_SHEET
 DATA=SHEET_WHERE_ALL_THE_SERIES_ARE_STORED
 ID=ID_OF_THE_DATA_SHEET
 TOKEN=YOUR_DISCORD_BOT_TOKEN
 ```
 
-### **4️⃣ Configure `settings.toml`**
-Customize bot behavior by modifying `settings.toml`:
+### **4. Configure Settings**
+
+Modify the `settings.toml` file to match your server’s setup:
+
 ```toml
 [features]
-check_old_entries = false  # Toggle checking old assignments
+check_old_entries = false
 
 [channels]
 assignment_log = 1219030657955794954
-assignment_channel= 1218705159614631946
+assignment_channel = 1218705159614631946
 checkup_channel = 1224453260543266907
+oneshot_channel = 1225634854390206494
 
 [assignments]
-hiatus = "Hungover"  # Role that prevents assignment
+hiatus = "Hungover"
 
 [roles]
 RP = ["B", "C"]
@@ -59,24 +73,41 @@ QC = ["L", "M"]
 UPD = ["N", "O"]
 ```
 
-### **5️⃣ Run the Bot**
+### **5. Start the Bot**
+
 ```bash
-python bot_brewery.py
+python bot.py
 ```
 
 ---
 
-## 🔧 Usage
-The bot provides various Discord commands to manage assignment data. Here are some key commands:
-```
-/assign [series] [chapter] [role] [user] - Logs an assignment into the progress sheet.
-/check - Lists current assignments.
-```
-For a full list of commands, use:
-```
-/help
-```
+## **🛠 Available Commands**
 
-## 📬 Contact & Support
-If you have any issues or suggestions, feel free to open an **issue** on GitHub!
+| Command              | Description                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| `/channel`           | Links a Discord channel to a series in the progress sheet.        |
+| `/updatechannelid`   | Updates the stored channel ID when a channel is changed.          |
+| `/updatechannelname` | Updates the sheet name if it has been renamed.                    |
+| `/findid`            | Manually logs a Discord user’s ID for tracking.                   |
+| `/assign`            | Assigns a scanlation task to a team member and updates the sheet. |
+| `/bulkassign`        | Assigns multiple chapters at once.                                |
+| `/create`            | Creates a new Discord channel and a corresponding sheet.          |
 
+For a **detailed command guide**, refer to the [Wiki](https://github.com/yourusername/Quest_Master/wiki).
+
+---
+
+## **📩 Feature Requests & Issue Reporting**
+
+If you have suggestions for new features or encounter any issues, please open a **GitHub Issue** in this repository. Provide detailed information, including steps to reproduce any problems, expected behavior, and logs if applicable.
+
+[📌 Submit a Feature Request](https://github.com/yourusername/Quest_Master/issues)\
+[🐛 Report an Issue](https://github.com/yourusername/Quest_Master/issues)
+
+---
+
+## **📜 License**
+
+This project is licensed under **GPL 3.0**.
+
+---

@@ -101,8 +101,8 @@ For a **detailed command guide**, refer to the [Wiki](https://github.com/youruse
 
 If you have suggestions for new features or encounter any issues, please open a **GitHub Issue** in this repository. Provide detailed information, including steps to reproduce any problems, expected behavior, and logs if applicable.
 
-[📌 Submit a Feature Request](https://github.com/yourusername/Quest_Master/issues)\
-[🐛 Report an Issue](https://github.com/yourusername/Quest_Master/issues)
+[📌 Submit a Feature Request](https://github.com/krammarkro/Quest_Master/issues)\
+[🐛 Report an Issue](https://github.com/krammarkro/Quest_Master/issues)
 
 ---
 

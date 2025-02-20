@@ -63,13 +63,13 @@ Modify the `settings.toml` file to match your server’s setup:
 check_old_entries = false
 
 [channels]
-assignment_log = Channel were Extentions Accepted, Decliened and Finished messages are Send
-assignment_channel = Channel were Staff can interact with their assignments
-checkup_channel = If turned on will send a checkup message X days after Assignment
-oneshot_channel = Currently Not used
+assignment_log = #Channel were Extentions Accepted, Decliened and Finished messages are Send
+assignment_channel = #Channel were Staff can interact with their assignments
+checkup_channel = #If turned on will send a checkup message X days after Assignment
+oneshot_channel = #Currently Not used
 
 [assignments]
-hiatus = "Hungover"
+hiatus = "Hungover" #Hiatus Role
 
 [roles]
 RP = ["B", "C"]
@@ -84,7 +84,7 @@ UPD = ["N", "O"]
 ### **6. Start the Bot**
 
 ```bash
-python bot.py
+python bot_brewery.py
 ```
 
 ---

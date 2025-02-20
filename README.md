@@ -35,18 +35,26 @@ cd Quest_Master
 pip install -r requirements.txt
 ```
 
-### **3. Configure Environment Variables**
+### **3. Set Up Google API Service Account**
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project and enable the **Google Sheets API** and **Google Drive API**.
+3. Navigate to **IAM & Admin > Service Accounts** and create a new service account.
+4. Generate a JSON key file and save it in your project directory (rename to `service_account.json`).
+5. Share your Google Sheets document with the service account email (`example@yourproject.iam.gserviceaccount.com`) with **Editor** permissions.
+   
+### **4. Configure Environment Variables**
 
 Create a `.env` file and add the following:
 
 ```
-STAFF=YOUR_STAFF_SHEET
-DATA=SHEET_WHERE_ALL_THE_SERIES_ARE_STORED
-ID=ID_OF_THE_DATA_SHEET
+STAFF=YOUR_STAFF_DOCUMENT
+DATA=YOUR_PROGRESS_DOCUMENT
+ID=ID_OF_DATA_SHEET
 TOKEN=YOUR_DISCORD_BOT_TOKEN
 ```
 
-### **4. Configure Settings**
+### **5. Configure Settings**
 
 Modify the `settings.toml` file to match your server’s setup:
 
@@ -55,10 +63,10 @@ Modify the `settings.toml` file to match your server’s setup:
 check_old_entries = false
 
 [channels]
-assignment_log = 1219030657955794954
-assignment_channel = 1218705159614631946
-checkup_channel = 1224453260543266907
-oneshot_channel = 1225634854390206494
+assignment_log = Channel were Extentions Accepted, Decliened and Finished messages are Send
+assignment_channel = Channel were Staff can interact with their assignments
+checkup_channel = If turned on will send a checkup message X days after Assignment
+oneshot_channel = Currently Not used
 
 [assignments]
 hiatus = "Hungover"
@@ -73,7 +81,7 @@ QC = ["L", "M"]
 UPD = ["N", "O"]
 ```
 
-### **5. Start the Bot**
+### **6. Start the Bot**
 
 ```bash
 python bot.py

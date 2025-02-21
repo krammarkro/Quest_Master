@@ -59,9 +59,9 @@ TOKEN=YOUR_DISCORD_BOT_TOKEN
 - **Google Spreadsheet ID** (for *DATA=* and *STAFF=*): Found in the URL of your Google Sheet.
 
   - **Example Staff Document:**\
-    `https://docs.google.com/spreadsheets/d/1fwX6xHKACtr-61pCsQUVVmDM3rjIkDPDLShFY9o5npY/edit?usp=sharing`
+    https://docs.google.com/spreadsheets/d/1fwX6xHKACtr-61pCsQUVVmDM3rjIkDPDLShFY9o5npY/edit?usp=sharing
   - **Example Progress Document:**\
-    `https://docs.google.com/spreadsheets/d/1CV44SsLShporYYjFS_esFALAfrKZ_Wpd-jyc6RCyZbo/edit?gid=88965702`
+    https://docs.google.com/spreadsheets/d/1CV44SsLShporYYjFS_esFALAfrKZ_Wpd-jyc6RCyZbo/edit?gid=88965702
   - **Spreadsheet ID:** `1CV44SsLShporYYjFS_esFALAfrKZ_Wpd-jyc6RCyZbo`
 
 - **Data Sheet ID** (ID=): Found after `gid=` in the URL when the DATA sheet is open.

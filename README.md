@@ -25,7 +25,7 @@ Quest\_Master is a self-hosted Discord bot designed to assist scanlation groups 
 ### **1. Clone the Repository**
 
 ```bash
-git clone https://github.com/yourusername/Quest_Master.git
+git clone https://github.com/krammarkro/Quest_Master.git
 cd Quest_Master
 ```
 
@@ -118,7 +118,7 @@ python bot_brewery.py
 | `/bulkassign`        | Assigns multiple chapters at once.                                |
 | `/create`            | Creates a new Discord channel and a corresponding sheet.          |
 
-For a **detailed command guide**, refer to the [Wiki](https://github.com/yourusername/Quest_Master/wiki).
+For a **detailed command guide**, refer to the [Wiki](https://github.com/krammarkro/Quest_Master/wiki).
 
 ---
 

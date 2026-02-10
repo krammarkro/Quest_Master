@@ -115,7 +115,7 @@ async def addid(name, ids):
         sheets.values().append(spreadsheetId=staffsheet, insertDataOption="INSERT_ROWS", range=f"3:3",
                                valueInputOption="USER_ENTERED", body={'values': [
                 [name, "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ids]]}).execute()
-
+ 
     except HttpError as error:
         logging.error(error)
 
@@ -174,6 +174,27 @@ async def getcreaditname(user_id):
 
 
 async def check_old_entries(bot):
+    """
+        Checks for assignments that are approaching their deadline and sends reminders.
+
+        This function scans the DATA sheet for assignments that:
+        - Were accepted more than 4 days ago
+        - Haven't been reminded about yet (no message ID in column M)
+
+        For each qualifying assignment, it:
+        - Sends a reminder message to the specified channel
+        - Tags the assigned user
+        - Includes series name, chapter number and role
+        - Adds reaction options (✅, no, ❌)
+        - Stores the reminder message ID in column M
+
+        Args:
+            bot: The Discord bot instance used to send messages and access channels
+
+        Note:
+            Deadline is considered to be 5 days after acceptance
+            Reminder is sent when 4 days have passed (1 day before deadline)
+        """
     result = sheets.values().get(spreadsheetId=progresssheet, range="DATA!L:L").execute()
     result2 = sheets.values().get(spreadsheetId=progresssheet, range="DATA!M:M").execute()
     values = result.get('values', [])
@@ -216,6 +237,16 @@ async def check_old_entries(bot):
 
 
 async def storetime(row, time):
+    """
+    Stores the timestamp when an assignment was accepted.
+
+    Updates column L in the DATA sheet with the acceptance date for tracking
+    deadlines and sending reminders. The date is stored in YYYY-MM-DD format.
+
+    Args:
+        row (int): The row number in the DATA sheet where the assignment is located
+        time (str): The timestamp to store, formatted as YYYY-MM-DD
+    """
     sheets.values().update(spreadsheetId=progresssheet, range=f"DATA!L{row}:L{row}",
                            valueInputOption="USER_ENTERED", body={'values': [[str(time)]]}).execute()
 
@@ -247,7 +278,18 @@ async def getmessageid(id):
         logging.error(error)
 
 
-async def remove_due_date(row):
+async def clear_reminder_message_id(row):
+    """
+       Clears the reminder message ID for an assignment after handling the due date response.
+
+       Removes the stored message ID from column M in the DATA sheet after a user has
+       responded to the deadline reminder message. This prevents duplicate reminders and
+       marks the reminder as processed.
+
+       Args:
+           row (int): The row number in the DATA sheet where the assignment's reminder
+                     message ID should be cleared
+       """
     sheets.values().update(spreadsheetId=progresssheet, range=f"DATA!M{row}:M{row}",
                            valueInputOption="USER_ENTERED", body={'values': [[""]]}).execute()
 

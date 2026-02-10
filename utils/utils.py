@@ -156,7 +156,7 @@ async def checkup_reaction(bot, payload, assignmentlog):
             date, msg = await select_date(bot, user, data[1], data[2], role, f"<@{payload.user_id}>")
             due_date = date - timedelta(days=4)
             await sh.storetime(row, due_date)
-            await sh.remove_due_date(row)
+            await sh.clear_reminder_message_id(row)
             await delete_message(bot, payload.channel_id, payload.message_id)
             await assignmentlog.send(
                 f"<@{payload.user_id}> has **extended** the due date for {data[1]} CH {data[2]} (Role: {role}) from {original_date} to **{date}**.\n"
